@@ -12,6 +12,7 @@ FÁJLOK
 
 EMAILJS BEÁLLÍTÁS
 - A weboldal az EmailJS böngészős SDK 5-ös verzióját tölti be a jsDelivr CDN-ről.
+- A beküldés az EmailJS send() metódusával történik; a HTML-fájl cache-frissítő verzióparaméterrel tölti be a script.js fájlt.
 - A Service ID, Template ID és Public Key be van állítva a script.js fájlban.
 - Az űrlap mezőnevei: name, email, phone, city, address, furniture, details.
 - Az EmailJS sablonban ezeknek megfelelő változókat kell használni: {{name}}, {{email}}, {{phone}}, {{city}}, {{address}}, {{furniture}}, {{details}}.
@@ -23,7 +24,7 @@ EMAILJS-FIÓKBAN MÉG ELLENŐRIZENDŐ
 1. Az Email Services résznél a Gmail-kapcsolat állapota legyen sikeres.
 2. Az Email Templates résznél a címzett a dombovarkarpit@gmail.com legyen.
 3. A sablon változónevei egyezzenek a fent felsoroltakkal; a Reply-To mező legyen {{email}}.
-4. Az EmailJS Account / Security vagy Allowed Origins beállításában engedélyezni kell a weboldal eredetét: https://dombovarkarpit.github.io. Saját domain használatakor a horvathkarpit.hu és www.horvathkarpit.hu HTTPS eredetét is engedélyezni kell.
+4. Az EmailJS szolgáltatásnál ellenőrizd a fiókhoz tartozó küldési és biztonsági beállításokat. Az ingyenes csomagban nem feltétlenül érhető el domain-whitelist.
 5. A weboldal frissítése után valódi teszt-ajánlatkérést kell beküldeni, és ellenőrizni kell a beérkező leveleket és a Spam mappát is.
 
 ŰRLAP ÉS ADATKEZELÉS
@@ -47,4 +48,4 @@ KAPCSOLATI E-MAIL
  dombovarkarpit@gmail.com
 
 PUBLIKÁLÁS
-A ZIP tartalmát a GitHub repository főkönyvtárába kell feltölteni (az index.html közvetlenül a gyökérben legyen), majd Commit changes. GitHub Pages automatikusan frissíti a weboldalt. A módosítás után a böngészőben frissítse az oldalt (szükség esetén Ctrl+F5).
+A ZIP közvetlenül a fájlokat tartalmazza. Kicsomagolás után az index.html, script.js, styles.css és a többi fájl tartalmát töltsd fel a GitHub repository gyökérkönyvtárába. Ne hozz létre új horvath-karpit almappát a repositoryban. Ha a GitHub rákérdez, engedélyezd az azonos nevű fájlok felülírását, majd Commit changes. Az index.html-nek közvetlenül a repository gyökerében kell lennie. Ezután nyisd meg a https://dombovarkarpit.github.io/ oldalt, és nyomj Ctrl+F5-öt.
