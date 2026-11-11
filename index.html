@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20261111-contact">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
 <body>
@@ -107,7 +107,18 @@
         <h2>Kérjen személyre<br><em>szabott árajánlatot.</em></h2>
         <p class="body-copy">Töltse ki az űrlapot, és írja le röviden, milyen bútorral kapcsolatban keres minket. A megadott adatok alapján fel tudjuk venni Önnel a kapcsolatot.</p>
         <div class="service-area"><span class="pin">⌖</span><div><b>Munkavégzés területe</b><p>Dombóvár, Kaposvár és környéke</p></div></div>
-        <div class="contact-placeholder">E-mail: <a href="mailto:dombovarkarpit@gmail.com">dombovarkarpit@gmail.com</a></div>
+        <div class="contact-methods" aria-label="Közvetlen kapcsolatfelvétel">
+          <a class="contact-method" href="mailto:dombovarkarpit@gmail.com">
+            <span class="contact-method-icon" aria-hidden="true">✉</span>
+            <span class="contact-method-text"><small>ÍRJON E-MAILT</small><b>dombovarkarpit@gmail.com</b></span>
+            <span class="contact-method-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="contact-method" href="tel:+36702662620">
+            <span class="contact-method-icon" aria-hidden="true">☎</span>
+            <span class="contact-method-text"><small>HÍVJON TELEFONON</small><b>+36 70 266 2620</b></span>
+            <span class="contact-method-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
       </div>
 
       <form class="quote-form" id="quoteForm">
@@ -146,6 +157,6 @@
     <div class="wrap copyright">© <span id="year"></span> Horváth Kárpit. Minden jog fenntartva.</div>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@5/dist/email.min.js"></script>
-  <script src="script.js?v=20261111-emailjs2"></script>
+  <script src="script.js?v=20261111-emailjs3"></script>
 </body>
 </html>

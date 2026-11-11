@@ -3,9 +3,9 @@ HORVÁTH KÁRPIT – STATIKUS WEBOLDAL
 FÁJLOK
 - index.html: főoldal és szöveges ajánlatkérő űrlap
 - referenciak.html: referenciaoldal illusztrációkkal
-- adatkezeles.html: kitöltendő adatkezelési tájékoztató-tervezet
-- impresszum.html: kitöltendő impresszum-tervezet
-- sutik.html: kitöltendő süti tájékoztató-tervezet
+- adatkezeles.html: adatkezelési tájékoztató
+- impresszum.html: impresszum
+- sutik.html: süti tájékoztató
 - styles.css: megjelenés és mobilnézet
 - script.js: mobilmenü, űrlapellenőrzés, EmailJS e-mail-küldés
 - favicon.svg: böngészőikon
@@ -33,19 +33,35 @@ EMAILJS-FIÓKBAN MÉG ELLENŐRIZENDŐ
 - Az adatkezelési tájékoztató, az impresszum és a süti tájékoztató továbbra is előkészített tervezet, nem végleges jogi dokumentum.
 - Az EmailJS tényleges adatfeldolgozási feltételeit, a tárhelyszolgáltató adatait, az esetleges adattovábbításokat és a megőrzési időt az éles használat előtt ellenőrizni és a tájékoztatóban pontosítani kell.
 
-KÉSŐBB MEGADANDÓ / ELLENŐRIZENDŐ ADATOK
-1. Egyéni vállalkozó hivatalos teljes neve.
-2. Hivatalos székhely és – ha van/releváns – telephely vagy levelezési cím.
-3. Egyéni vállalkozói nyilvántartási szám és adószám.
-4. Nyilvános telefonszám, ha közzé kívánják tenni.
-5. Tárhelyszolgáltató pontos adatai (a weboldal GitHub Pages-en fut).
-6. EmailJS hivatalos szolgáltatói és adatfeldolgozói adatai, adatátviteli feltételei.
-7. Ajánlatkérések konkrét megőrzési ideje és indoka.
-8. A tényleges sütik, külső erőforrások és tárhelynaplók ellenőrzése.
-9. A jogi dokumentumok véglegesítésének dátuma és szakértői ellenőrzése.
+VÁLLALKOZÓI ADATOK A DOKUMENTUMOKBAN
+- Hivatalos név: Horváth József egyéni vállalkozó
+- Székhely: 7252 Attala, Petőfi Sándor utca 24.
+- Nyilvántartási szám: 60104241
+- Adószám: 90769087-1-37
+- Telefonszám: +36 70 266 2620
+- E-mail: dombovarkarpit@gmail.com
+- Külön telephely / eltérő levelezési cím: a megadott adatok szerint nincs.
+
+MEGŐRZÉSI IDŐK
+- Lezárt, meg nem valósult ajánlatkérés: legfeljebb 6 hónap.
+- Teljesített megrendelés nem számviteli egyeztetési anyagai: legfeljebb 6 hónap a lezárástól.
+- Számlák és könyvviteli elszámolást alátámasztó számviteli bizonylatok: legalább 8 év a számviteli törvény 169. § (2) bekezdése alapján.
+- A weboldal önmagában nem törli automatikusan a Gmail leveleket; a törlést az adatkezelőnek a levelezési fiókban is végre kell hajtania.
+
+JOGI ÉS TECHNIKAI MEGJEGYZÉSEK
+- Nyilvántartó hatóság: Nemzeti Adó- és Vámhivatal (NAV).
+- Tárhely: GitHub Pages / GitHub, Inc.
+- Űrlaptovábbítás: EmailJS Pte. Ltd.; a kézbesítés Gmail-postafiókba történik.
+- Nincs Google Analytics, Facebook Pixel vagy Google Maps beágyazás.
+- A Google Fonts, Unsplash és jsDelivr külső erőforrásként szerepel.
+- A három jogi dokumentumot éles közzététel előtt a tényleges működéssel össze kell vetni, és jogi szakértővel ellenőriztetni javasolt.
 
 KAPCSOLATI E-MAIL
  dombovarkarpit@gmail.com
 
 PUBLIKÁLÁS
 A ZIP közvetlenül a fájlokat tartalmazza. Kicsomagolás után az index.html, script.js, styles.css és a többi fájl tartalmát töltsd fel a GitHub repository gyökérkönyvtárába. Ne hozz létre új horvath-karpit almappát a repositoryban. Ha a GitHub rákérdez, engedélyezd az azonos nevű fájlok felülírását, majd Commit changes. Az index.html-nek közvetlenül a repository gyökerében kell lennie. Ezután nyisd meg a https://dombovarkarpit.github.io/ oldalt, és nyomj Ctrl+F5-öt.
+
+
+KAPCSOLATI GOMBOK
+A főoldalon az e-mail-cím és a telefonszám kiemelt, kattintható kapcsolatfelvételi elemként jelenik meg az űrlap mellett.
