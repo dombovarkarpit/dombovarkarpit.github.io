@@ -105,9 +105,9 @@
       <div class="contact-intro">
         <p class="eyebrow">05 / KAPCSOLAT</p>
         <h2>Kérjen személyre<br><em>szabott árajánlatot.</em></h2>
-        <p class="body-copy">Töltse ki az űrlapot, írja le röviden, milyen bútorral kapcsolatban keres minket, és csatoljon fényképeket. A megadott adatok alapján fel tudjuk venni Önnel a kapcsolatot.</p>
+        <p class="body-copy">Töltse ki az űrlapot, és írja le röviden, milyen bútorral kapcsolatban keres minket. A megadott adatok alapján fel tudjuk venni Önnel a kapcsolatot.</p>
         <div class="service-area"><span class="pin">⌖</span><div><b>Munkavégzés területe</b><p>Dombóvár, Kaposvár és környéke</p></div></div>
-        <div class="contact-placeholder">Telefonos és e-mailes elérhetőség hamarosan.</div>
+        <div class="contact-placeholder">E-mail: <a href="mailto:dombovarkarpit@gmail.com">dombovarkarpit@gmail.com</a></div>
       </div>
 
       <form class="quote-form" id="quoteForm">
@@ -127,12 +127,10 @@
           </select>
         </label>
         <label>Írja le röviden, milyen munkát szeretne *<textarea name="details" rows="4" required placeholder="Milyen állapotban van a bútor, mit szeretne rajta megújítani?"></textarea></label>
-        <label class="upload-box"><span class="upload-icon">＋</span><span><b>Fényképek csatolása</b><small>JPG, PNG vagy WEBP · legfeljebb 5 kép · maximum 10 MB/kép</small></span><input type="file" name="photos" id="photos" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" multiple></label>
-        <div class="file-list" id="fileList" aria-live="polite">Még nincs kiválasztott kép.</div>
-        <p class="upload-security">Fontos: ezek a korlátozások csak a böngészőben segítenek kiszűrni a nem megfelelő fájlokat. Nem helyettesítik a szerveroldali ellenőrzést és a vírusvizsgálatot.</p>
-        <label class="consent"><input type="checkbox" required> <span>Megismertem az <a href="adatkezeles.html" target="_blank" rel="noopener noreferrer">adatkezelési tájékoztatót</a>. *</span></label>
+        <label class="consent" for="privacyConsent"><input id="privacyConsent" name="privacyConsent" type="checkbox"> <span>Megismertem az <a href="adatkezeles.html" target="_blank" rel="noopener noreferrer">adatkezelési tájékoztatót</a>. *</span></label>
+        <p class="consent-error" id="consentError" role="alert" aria-live="assertive" hidden>Kérjük, az űrlap beküldése előtt ismerje meg az adatkezelési tájékoztatót, és jelölje be a négyzetet.</p>
         <button class="button button-dark" type="submit">Ajánlatkérés elküldése <span>↗</span></button>
-        <p class="form-note">Az űrlap jelenleg bemutató üzemmódban van: nem küld e-mailt és nem tölt fel fájlokat. Élesítéskor a képeket biztonságos, elkülönített tárhelyre kell feltölteni, szerveroldalon ellenőrizni és lehetőség szerint kártevővizsgálatnak alávetni. E-mailben csak értesítés és biztonságos letöltési hivatkozás menjen, ne közvetlen fájlcsatolmány.</p>
+        <p class="form-note">Az űrlap elküldésekor a megadott adatok e-mailben továbbításra kerülnek. Kérjük, csak a kapcsolatfelvételhez szükséges adatokat adja meg.</p>
         <p class="form-status" id="formStatus" role="status"></p>
       </form>
     </section>
@@ -147,6 +145,7 @@
     <div class="wrap footer-legal"><a href="adatkezeles.html">Adatkezelési tájékoztató</a><a href="impresszum.html">Impresszum</a><a href="sutik.html">Süti tájékoztató</a></div>
     <div class="wrap copyright">© <span id="year"></span> Horváth Kárpit. Minden jog fenntartva.</div>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@5/dist/email.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

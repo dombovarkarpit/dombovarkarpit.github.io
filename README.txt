@@ -1,53 +1,50 @@
 HORVÁTH KÁRPIT – STATIKUS WEBOLDAL
 
 FÁJLOK
-- index.html: a főoldal tartalma és ajánlatkérő űrlap (jelenleg demó)
-- referenciak.html: külön referenciaoldal előtte–utána elrendezésű illusztrációkkal
-- adatkezeles.html: adatkezelési tájékoztató tervezet
-- impresszum.html: impresszum, a hiányzó vállalkozói adatok helyőrzőivel
-- sutik.html: süti tájékoztató tervezet
+- index.html: főoldal és szöveges ajánlatkérő űrlap
+- referenciak.html: referenciaoldal illusztrációkkal
+- adatkezeles.html: kitöltendő adatkezelési tájékoztató-tervezet
+- impresszum.html: kitöltendő impresszum-tervezet
+- sutik.html: kitöltendő süti tájékoztató-tervezet
 - styles.css: megjelenés és mobilnézet
-- script.js: mobilmenü, képválasztás és böngészőoldali ellenőrzések
+- script.js: mobilmenü, űrlapellenőrzés, EmailJS e-mail-küldés
 - favicon.svg: böngészőikon
 
-FONTOS – JOGI OLDALAK
-Az adatkezelési tájékoztató, az impresszum és a süti tájékoztató ELŐKÉSZÍTETT TERVEZET, nem végleges jogi dokumentum. Éles közzététel előtt töltsd ki és ellenőrizd az összes [KITÖLTENDŐ] / [ELLENŐRIZENDŐ] részt. Különösen szükséges:
-1. Az egyéni vállalkozó nyilvántartás szerinti teljes neve.
-2. A hivatalos székhely, és ha releváns, telephely/levelezési cím.
-3. Az egyéni vállalkozói nyilvántartási szám és az alkalmazandó adószám-adatok.
-4. Nyilvános telefonszám (ha lesz).
-5. A tényleges tárhelyszolgáltató neve, címe és elérhetősége.
-6. A végleges űrlap-, e-mail- és fájltároló szolgáltatók, adatfeldolgozók és az adatfolyamok.
-7. Az ajánlatkérésekre vonatkozó konkrét adatmegőrzési idő és annak indoka.
-8. A tényleges tárhelyen használt sütik, naplók és külső erőforrások ellenőrzése.
-9. A jogi szövegek szakértői ellenőrzése és a véglegesítés dátuma.
+EMAILJS BEÁLLÍTÁS
+- A weboldal az EmailJS böngészős SDK 5-ös verzióját tölti be a jsDelivr CDN-ről.
+- A Service ID, Template ID és Public Key be van állítva a script.js fájlban.
+- Az űrlap mezőnevei: name, email, phone, city, address, furniture, details.
+- Az EmailJS sablonban ezeknek megfelelő változókat kell használni: {{name}}, {{email}}, {{phone}}, {{city}}, {{address}}, {{furniture}}, {{details}}.
+- Sikeres küldés esetén az űrlap visszajelzést ad és kiüríti a mezőket; sikertelen küldés esetén hibaüzenetet jelenít meg.
+- A küldés dupla kattintás ellen védett; a böngészős SDK botvédelmi és 10 másodperces kliensoldali küldési korlátozást is használ.
+- A Private Key nincs a weboldal kódjában. A Public Key böngészőben való használata az EmailJS normál működése.
 
-A megadott e-mail-cím beépült: dombovarkarpit@gmail.com.
-A vállalkozó egyéni vállalkozóként, az oldal pedig egyelőre kizárólag érdeklődés/árajánlatkérés céljából van előkészítve; online megrendelés és szerződéskötés nincs beállítva.
+EMAILJS-FIÓKBAN MÉG ELLENŐRIZENDŐ
+1. Az Email Services résznél a Gmail-kapcsolat állapota legyen sikeres.
+2. Az Email Templates résznél a címzett a dombovarkarpit@gmail.com legyen.
+3. A sablon változónevei egyezzenek a fent felsoroltakkal; a Reply-To mező legyen {{email}}.
+4. Az EmailJS Account / Security vagy Allowed Origins beállításában engedélyezni kell a weboldal eredetét: https://dombovarkarpit.github.io. Saját domain használatakor a horvathkarpit.hu és www.horvathkarpit.hu HTTPS eredetét is engedélyezni kell.
+5. A weboldal frissítése után valódi teszt-ajánlatkérést kell beküldeni, és ellenőrizni kell a beérkező leveleket és a Spam mappát is.
 
-ŰRLAP – JELENLEGI ÁLLAPOT
-Az ajánlatkérő űrlap DEMÓ. A kötelező mezők ellenőrzése és a képfájlok böngészőoldali szűrése működik, de az űrlap NEM küld e-mailt, és NEM tölt fel fájlokat. Az adatkezelési oldal ezt egyértelműen jelzi.
+ŰRLAP ÉS ADATKEZELÉS
+- Képfeltöltési lehetőség nincs; az űrlap csak szöveges adatokat kér.
+- A beküldéshez az adatkezelési tájékoztató megismerését jelző négyzet bejelölése szükséges.
+- Az adatkezelési tájékoztató, az impresszum és a süti tájékoztató továbbra is előkészített tervezet, nem végleges jogi dokumentum.
+- Az EmailJS tényleges adatfeldolgozási feltételeit, a tárhelyszolgáltató adatait, az esetleges adattovábbításokat és a megőrzési időt az éles használat előtt ellenőrizni és a tájékoztatóban pontosítani kell.
 
-A böngészőoldali képellenőrzés jelenlegi korlátai:
-- JPG, PNG és WEBP fájltípusok engedélyezettek;
-- legfeljebb 5 kép választható;
-- képenként legfeljebb 10 MB engedélyezett.
-Ezek kényelmi korlátozások, nem biztonsági garanciák: a fájltípus és a méret manipulálható, a böngésző nem végez megbízható vírusellenőrzést.
+KÉSŐBB MEGADANDÓ / ELLENŐRIZENDŐ ADATOK
+1. Egyéni vállalkozó hivatalos teljes neve.
+2. Hivatalos székhely és – ha van/releváns – telephely vagy levelezési cím.
+3. Egyéni vállalkozói nyilvántartási szám és adószám.
+4. Nyilvános telefonszám, ha közzé kívánják tenni.
+5. Tárhelyszolgáltató pontos adatai (a weboldal GitHub Pages-en fut).
+6. EmailJS hivatalos szolgáltatói és adatfeldolgozói adatai, adatátviteli feltételei.
+7. Ajánlatkérések konkrét megőrzési ideje és indoka.
+8. A tényleges sütik, külső erőforrások és tárhelynaplók ellenőrzése.
+9. A jogi dokumentumok véglegesítésének dátuma és szakértői ellenőrzése.
 
-ÉLES ŰRLAPHOZ SZÜKSÉGES BIZTONSÁG
-1. Külső űrlapkezelő vagy saját szerveroldali végpont szükséges. A GitHub Pages önmagában statikus tárhely, nem futtat szerveroldali fájlfeltöltést vagy vírusellenőrzést.
-2. A szerver ellenőrizze a fájl tényleges tartalmát (MIME és fájlszignatúra/magic bytes), méretét és darabszámát.
-3. A feltöltött fájlok kerüljenek elkülönített tárhelyre/karanténba, kártevővizsgálatra; képfájloknál lehetőség szerint biztonságos újrakódolás és metaadat-eltávolítás is történjen.
-4. A fájlok ne fussanak le, ne legyenek közvetlenül publikusak, és ne e-mail csatolmányként érkezzenek. E-mailben csak értesítés és hozzáférés-vezérelt letöltési link menjen.
-5. Legyen spamvédelem/rate limit, és a szolgáltató dokumentációjából ellenőrizni kell a fájltárolás, vírusvizsgálat, hozzáférés és adatmegőrzés részleteit.
-6. Az űrlap aktiválása előtt frissíteni kell az adatkezelési tájékoztatót a valós adatfeldolgozókkal, célokkal és megőrzési időkkel.
+KAPCSOLATI E-MAIL
+ dombovarkarpit@gmail.com
 
-A DOMAIN ÉLESÍTÉSE UTÁNI MÓDOSÍTÁS
-Ha a GitHub Pages szolgál tárhelyként, a módosított fájlokat töltsd fel a repositoryba, majd Commit changes. A GitHub Pages automatikusan közzéteszi az új verziót a meglévő domainen. A domain nem változik attól, hogy a weboldal fájljait frissíted.
-
-SEO
-- Domain megadása után készíts sitemap.xml fájlt, majd add hozzá a Google Search Console-hoz.
-- Készíts Google Cégprofilt a tényleges vállalkozási adatokkal.
-- A hangulatképeket később cseréld saját, optimalizált fotókra és leíró alt szövegekre.
-
-A fotók jelenleg Unsplash URL-ről töltődnek be, a betűkészlet pedig Google Fonts szolgáltatásból; megjelenítésükhöz internetkapcsolat szükséges. Ezek külső erőforrások, ezért az adatkezelési és süti tájékoztatót a végleges konfigurációhoz kell igazítani.
+PUBLIKÁLÁS
+A ZIP tartalmát a GitHub repository főkönyvtárába kell feltölteni (az index.html közvetlenül a gyökérben legyen), majd Commit changes. GitHub Pages automatikusan frissíti a weboldalt. A módosítás után a böngészőben frissítse az oldalt (szükség esetén Ctrl+F5).
