@@ -14,102 +14,126 @@ nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => 
 const year = document.getElementById('year');
 if (year) year.textContent = new Date().getFullYear();
 
-// EmailJS – a böngészőben használt nyilvános azonosítók.
-// A Public Key nyilvános kulcs; Private Key-t soha ne tegyünk a weboldalba.
-const EMAILJS_SERVICE_ID = 'service_lx4oy2r';
-const EMAILJS_TEMPLATE_ID = 'template_il8ap3l';
-const EMAILJS_PUBLIC_KEY = 'mIzsWJ6m0hoGdt7A2';
+// Google Apps Script + Cloudflare Turnstile fotófeltöltéses ajánlatkérő.
+(function initializeQuoteForm() {
+  const config = window.HK_FORM_CONFIG || {};
+  const shell = document.getElementById('quoteFormShell');
+  const notice = document.getElementById('formSetupNotice');
+  const frame = document.getElementById('quoteFormFrame');
+  const turnstileShell = document.getElementById('turnstileShell');
+  const turnstileWidget = document.getElementById('turnstileWidget');
+  const turnstileNotice = document.getElementById('turnstileNotice');
 
-const form = document.getElementById('quoteForm');
-const formStatus = document.getElementById('formStatus');
-const consent = document.getElementById('privacyConsent');
-const consentError = document.getElementById('consentError');
-const submitButton = form?.querySelector('button[type="submit"]');
-const originalButtonContent = submitButton?.innerHTML ?? '';
-let isSending = false;
+  if (!shell || !frame || !notice) return;
 
-// Az EmailJS SDK-t az index.html tölti be közvetlenül ez előtt a fájl előtt.
-const emailJsAvailable = Boolean(
-  window.emailjs && typeof window.emailjs.init === 'function' && typeof window.emailjs.send === 'function'
-);
-
-if (emailJsAvailable) {
-  window.emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-}
-
-function updateConsentMessage() {
-  if (!consent || !consentError) return;
-  if (consent.checked) {
-    consentError.hidden = true;
-    consent.removeAttribute('aria-invalid');
-  }
-}
-
-consent?.addEventListener('change', updateConsentMessage);
-
-form?.addEventListener('submit', async event => {
-  event.preventDefault();
-  if (isSending) return;
-
-  if (!form.checkValidity()) {
-    form.reportValidity();
+  const appUrl = String(config.appsScriptUrl || '').trim();
+  const siteKey = String(config.turnstileSiteKey || '').trim();
+  if (!appUrl || !siteKey) {
+    notice.hidden = false;
+    shell.hidden = true;
     return;
   }
 
-  if (!consent?.checked) {
-    if (consentError) consentError.hidden = false;
-    consent?.setAttribute('aria-invalid', 'true');
-    consent?.focus();
-    if (formStatus) formStatus.textContent = '';
+  let parsedAppUrl;
+  try { parsedAppUrl = new URL(appUrl); } catch (_) { parsedAppUrl = null; }
+  if (!parsedAppUrl || parsedAppUrl.origin !== 'https://script.google.com' ||
+      !parsedAppUrl.pathname.startsWith('/macros/s/') || !parsedAppUrl.pathname.endsWith('/exec')) {
+    notice.textContent = 'Az ajánlatkérő háttérszolgáltatás címe hibás. Kérjük, vegye fel velünk a kapcsolatot e-mailben vagy telefonon.';
+    notice.hidden = false;
+    shell.hidden = true;
     return;
   }
 
-  updateConsentMessage();
+  notice.hidden = true;
+  shell.hidden = false;
+  turnstileShell.hidden = false;
+  frame.hidden = false;
+  frame.src = appUrl;
 
-  if (!emailJsAvailable) {
-    if (formStatus) {
-      formStatus.textContent = 'Az e-mail-küldő modul nem töltődött be. Frissítse az oldalt, vagy írjon közvetlenül a dombovarkarpit@gmail.com címre.';
-    }
-    return;
-  }
+  let widgetId = null;
+  let currentToken = '';
+  let frameLoaded = false;
 
-  isSending = true;
-  if (submitButton) {
-    submitButton.disabled = true;
-    submitButton.textContent = 'Küldés folyamatban…';
-  }
-  if (formStatus) formStatus.textContent = 'Az ajánlatkérés küldése folyamatban van…';
-
-  // A sablonban szereplő {{...}} változónevekhez illesztett adatok.
-  const templateParams = {
-    name: form.elements.namedItem('name').value.trim(),
-    email: form.elements.namedItem('email').value.trim(),
-    phone: form.elements.namedItem('phone').value.trim(),
-    city: form.elements.namedItem('city').value.trim(),
-    address: form.elements.namedItem('address').value.trim(),
-    furniture: form.elements.namedItem('furniture').value,
-    details: form.elements.namedItem('details').value.trim()
-  };
-
-  try {
-    await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
-    if (formStatus) {
-      formStatus.textContent = 'Köszönjük! Az ajánlatkérést sikeresen továbbítottuk. Hamarosan felvesszük Önnel a kapcsolatot.';
-    }
-    form.reset();
-    if (consentError) consentError.hidden = true;
-    consent?.removeAttribute('aria-invalid');
-  } catch (error) {
-    console.error('EmailJS küldési hiba:', error);
-    const detail = typeof error?.text === 'string' ? ` (${error.text})` : '';
-    if (formStatus) {
-      formStatus.textContent = `Az ajánlatkérés küldése nem sikerült${detail}. Kérjük, próbálja meg később, vagy írjon közvetlenül a dombovarkarpit@gmail.com címre.`;
-    }
-  } finally {
-    isSending = false;
-    if (submitButton) {
-      submitButton.disabled = false;
-      submitButton.innerHTML = originalButtonContent;
+  function sendTokenToFrame() {
+    if (frameLoaded && currentToken) {
+      frame.contentWindow.postMessage({ type: 'hk-turnstile-token', token: currentToken }, '*');
     }
   }
-});
+
+  function resetTurnstile() {
+    currentToken = '';
+    if (window.turnstile && widgetId !== null) {
+      try { window.turnstile.reset(widgetId); } catch (_) { /* a következő frissítés újra renderelhető */ }
+    }
+    frame.contentWindow?.postMessage({ type: 'hk-turnstile-expired' }, '*');
+  }
+
+  window.addEventListener('message', event => {
+    // Az iframe forrását pontosan ellenőrizzük; más ablakból nem fogadunk üzenetet.
+    if (event.source !== frame.contentWindow || !event.data || typeof event.data !== 'object') return;
+    const data = event.data;
+    if (data.type === 'hk-form-resize') {
+      const height = Number(data.height);
+      if (Number.isFinite(height)) frame.style.height = Math.min(2600, Math.max(700, height + 12)) + 'px';
+    } else if (data.type === 'hk-request-turnstile') {
+      if (currentToken) sendTokenToFrame();
+      else {
+        turnstileNotice.textContent = 'Kérjük, jelölje be a Cloudflare biztonsági ellenőrzését, majd küldje el újra az űrlapot.';
+        turnstileShell.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    } else if (data.type === 'hk-form-sent' || data.type === 'hk-form-finished') {
+      resetTurnstile();
+      turnstileNotice.textContent = 'Az ellenőrzés a következő ajánlatkéréshez újra elvégzendő.';
+    }
+  });
+
+  frame.addEventListener('load', () => {
+    frameLoaded = true;
+    sendTokenToFrame();
+  });
+
+  function renderTurnstile() {
+    if (!window.turnstile || widgetId !== null) return;
+    widgetId = window.turnstile.render(turnstileWidget, {
+      sitekey: siteKey,
+      action: 'quote_submit',
+      theme: 'light',
+      size: 'flexible',
+      callback: token => {
+        currentToken = String(token || '');
+        turnstileNotice.textContent = 'Biztonsági ellenőrzés sikeres. Az űrlap elküldhető.';
+        sendTokenToFrame();
+      },
+      'expired-callback': () => {
+        currentToken = '';
+        frame.contentWindow?.postMessage({ type: 'hk-turnstile-expired' }, '*');
+        turnstileNotice.textContent = 'A biztonsági ellenőrzés lejárt. Kérjük, végezze el újra.';
+      },
+      'error-callback': () => {
+        currentToken = '';
+        turnstileNotice.textContent = 'A biztonsági ellenőrzés nem tölthető be. Kérjük, frissítse az oldalt.';
+      }
+    });
+  }
+
+  function loadTurnstile() {
+    if (window.turnstile) { renderTurnstile(); return; }
+    const existing = document.querySelector('script[data-hk-turnstile]');
+    if (existing) {
+      existing.addEventListener('load', renderTurnstile, { once: true });
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    script.async = true;
+    script.defer = true;
+    script.dataset.hkTurnstile = 'true';
+    script.onload = renderTurnstile;
+    script.onerror = () => {
+      turnstileNotice.textContent = 'A biztonsági ellenőrzés nem tölthető be. Kérjük, próbálja meg később.';
+    };
+    document.head.appendChild(script);
+  }
+
+  loadTurnstile();
+})();

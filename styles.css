@@ -34,3 +34,17 @@
 
 .consent-error{font-size:11px;line-height:1.6;color:#9b3328;margin:-10px 0 16px 27px}.consent input[aria-invalid="true"]{outline:2px solid #9b3328;outline-offset:2px}
 .quote-form .button:disabled{opacity:.65;cursor:wait}
+
+
+/* Fotófeltöltéses ajánlatkérő – Google Apps Script iframe */
+.form-setup-notice{background:var(--cream);border-left:3px solid var(--gold);padding:25px 28px;color:var(--ink);font-size:13px;line-height:1.8}
+.form-setup-notice strong{display:block;font:500 21px "Playfair Display",serif;margin-bottom:10px}
+.form-setup-notice p{margin:0 0 12px;color:var(--muted)}
+.form-setup-notice a{display:block;color:var(--brown);font-weight:700;margin-top:7px;text-decoration:underline;text-underline-offset:3px}
+.quote-frame-shell{background:var(--cream);padding:30px 34px;min-width:0}
+.quote-frame-shell[hidden],.form-setup-notice[hidden],.turnstile-shell[hidden],.quote-form-frame[hidden]{display:none}
+.turnstile-shell{padding:0 0 20px;margin:0 0 20px;border-bottom:1px solid var(--line)}
+.turnstile-shell p{font-size:10px;font-weight:700;letter-spacing:1.3px;margin:0 0 10px;color:var(--ink)}
+.turnstile-shell small{display:block;margin-top:8px;font-size:10px;line-height:1.6;color:var(--muted)}
+.quote-form-frame{display:block;width:100%;min-height:850px;border:0;background:var(--cream);overflow:hidden}
+@media(max-width:650px){.quote-frame-shell{padding:23px 18px}.quote-form-frame{min-height:1050px}}

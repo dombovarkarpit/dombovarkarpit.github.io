@@ -105,7 +105,7 @@
       <div class="contact-intro">
         <p class="eyebrow">05 / KAPCSOLAT</p>
         <h2>Kérjen személyre<br><em>szabott árajánlatot.</em></h2>
-        <p class="body-copy">Töltse ki az űrlapot, és írja le röviden, milyen bútorral kapcsolatban keres minket. A megadott adatok alapján fel tudjuk venni Önnel a kapcsolatot.</p>
+        <p class="body-copy">Töltse ki az űrlapot, írja le elképzelését, és csatoljon néhány fényképet a bútorról. Így pontosabban fel tudjuk mérni, miben segíthetünk.</p>
         <div class="service-area"><span class="pin">⌖</span><div><b>Munkavégzés területe</b><p>Dombóvár, Kaposvár és környéke</p></div></div>
         <div class="contact-methods" aria-label="Közvetlen kapcsolatfelvétel">
           <a class="contact-method" href="mailto:dombovarkarpit@gmail.com">
@@ -121,29 +121,20 @@
         </div>
       </div>
 
-      <form class="quote-form" id="quoteForm">
-        <div class="form-title"><span>AJÁNLATKÉRŐ ŰRLAP</span><small>* Kötelező mezők</small></div>
-        <div class="form-row">
-          <label>Teljes név *<input name="name" autocomplete="name" required placeholder="Az Ön neve"></label>
-          <label>E-mail cím *<input type="email" name="email" autocomplete="email" required placeholder="nev@email.hu"></label>
+      <div class="form-setup-notice" id="formSetupNotice" role="status">
+        <strong>Az online ajánlatkérő űrlap beállítás alatt áll.</strong>
+        <p>Amíg a fényképfeltöltés aktiválása megtörténik, kérjük, vegye fel velünk a kapcsolatot e-mailben vagy telefonon.</p>
+        <a href="mailto:dombovarkarpit@gmail.com">dombovarkarpit@gmail.com</a>
+        <a href="tel:+36702662620">+36 70 266 2620</a>
+      </div>
+      <div class="quote-frame-shell" id="quoteFormShell" hidden>
+        <div class="turnstile-shell" id="turnstileShell">
+          <p>Biztonsági ellenőrzés</p>
+          <div id="turnstileWidget"></div>
+          <small id="turnstileNotice">Kérjük, végezze el az ellenőrzést közvetlenül az űrlap elküldése előtt.</small>
         </div>
-        <div class="form-row">
-          <label>Telefonszám<input type="tel" name="phone" autocomplete="tel" placeholder="+36 ..."></label>
-          <label>Település / lakhely *<input name="city" autocomplete="address-level2" required placeholder="Pl. Dombóvár"></label>
-        </div>
-        <label>Utca, házszám (nem kötelező)<input name="address" autocomplete="street-address" placeholder="A pontos cím csak akkor szükséges, ha egyeztetünk a munkáról"></label>
-        <label>Milyen bútorról van szó? *
-          <select name="furniture" required>
-            <option value="">Válasszon...</option><option>Fotel</option><option>Kanapé / ülőgarnitúra</option><option>Étkezőszék</option><option>Más kárpitozott bútor</option>
-          </select>
-        </label>
-        <label>Írja le röviden, milyen munkát szeretne *<textarea name="details" rows="4" required placeholder="Milyen állapotban van a bútor, mit szeretne rajta megújítani?"></textarea></label>
-        <label class="consent" for="privacyConsent"><input id="privacyConsent" name="privacyConsent" type="checkbox"> <span>Megismertem az <a href="adatkezeles.html" target="_blank" rel="noopener noreferrer">adatkezelési tájékoztatót</a>. *</span></label>
-        <p class="consent-error" id="consentError" role="alert" aria-live="assertive" hidden>Kérjük, az űrlap beküldése előtt ismerje meg az adatkezelési tájékoztatót, és jelölje be a négyzetet.</p>
-        <button class="button button-dark" type="submit">Ajánlatkérés elküldése <span>↗</span></button>
-        <p class="form-note">Az űrlap elküldésekor a megadott adatok e-mailben továbbításra kerülnek. Kérjük, csak a kapcsolatfelvételhez szükséges adatokat adja meg.</p>
-        <p class="form-status" id="formStatus" role="status"></p>
-      </form>
+        <iframe class="quote-form-frame" id="quoteFormFrame" title="Horváth Kárpit ajánlatkérő űrlap" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
     </section>
   </main>
 
@@ -156,7 +147,7 @@
     <div class="wrap footer-legal"><a href="adatkezeles.html">Adatkezelési tájékoztató</a><a href="impresszum.html">Impresszum</a><a href="sutik.html">Süti tájékoztató</a></div>
     <div class="wrap copyright">© <span id="year"></span> Horváth Kárpit. Minden jog fenntartva.</div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@5/dist/email.min.js"></script>
-  <script src="script.js?v=20261111-emailjs3"></script>
+  <script src="form-config.js?v=20261112-photo1"></script>
+  <script src="script.js?v=20261112-googleforms1"></script>
 </body>
 </html>
