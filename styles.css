@@ -43,7 +43,7 @@
 .form-setup-notice a{display:block;color:var(--brown);font-weight:700;margin-top:7px;text-decoration:underline;text-underline-offset:3px}
 .quote-frame-shell{background:var(--cream);padding:30px 34px;min-width:0}
 .quote-frame-shell[hidden],.form-setup-notice[hidden],.turnstile-shell[hidden],.quote-form-frame[hidden]{display:none}
-.turnstile-shell{padding:0 0 20px;margin:0 0 20px;border-bottom:1px solid var(--line)}
+.turnstile-shell{padding:18px 0 4px;margin:0;border-top:1px solid var(--line);background:transparent}.turnstile-shell p{font-size:10px;font-weight:700;letter-spacing:1.3px;margin:0 0 10px;color:var(--ink)}.turnstile-shell #turnstileWidget{display:flex;justify-content:flex-start;align-items:center;min-height:65px}.turnstile-shell small{display:block;margin-top:8px;font-size:10px;line-height:1.6;color:var(--muted)}
 .turnstile-shell p{font-size:10px;font-weight:700;letter-spacing:1.3px;margin:0 0 10px;color:var(--ink)}
 .turnstile-shell small{display:block;margin-top:8px;font-size:10px;line-height:1.6;color:var(--muted)}
 .quote-form-frame{display:block;width:100%;min-height:850px;border:0;background:var(--cream);overflow:hidden}

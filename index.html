@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261111-contact">
+  <link rel="stylesheet" href="styles.css?v=20261112-turnstile-bottom">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
 <body>
@@ -128,12 +128,12 @@
         <a href="tel:+36702662620">+36 70 266 2620</a>
       </div>
       <div class="quote-frame-shell" id="quoteFormShell" hidden>
-        <div class="turnstile-shell" id="turnstileShell">
+        <iframe class="quote-form-frame" id="quoteFormFrame" title="Horváth Kárpit ajánlatkérő űrlap" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <div class="turnstile-shell" id="turnstileShell" role="group" aria-label="Cloudflare biztonsági ellenőrzés">
           <p>Biztonsági ellenőrzés</p>
           <div id="turnstileWidget"></div>
-          <small id="turnstileNotice">Kérjük, végezze el az ellenőrzést közvetlenül az űrlap elküldése előtt.</small>
+          <small id="turnstileNotice">Kérjük, végezze el az ellenőrzést az ajánlatkérés elküldése előtt.</small>
         </div>
-        <iframe class="quote-form-frame" id="quoteFormFrame" title="Horváth Kárpit ajánlatkérő űrlap" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
       </div>
     </section>
   </main>
@@ -148,6 +148,6 @@
     <div class="wrap copyright">© <span id="year"></span> Horváth Kárpit. Minden jog fenntartva.</div>
   </footer>
   <script src="form-config.js?v=20261112-photo1"></script>
-  <script src="script.js?v=20261112-googleforms2"></script>
+  <script src="script.js?v=20261112-turnstile-bottom"></script>
 </body>
 </html>
