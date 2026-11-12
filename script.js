@@ -48,15 +48,49 @@ if (year) year.textContent = new Date().getFullYear();
   shell.hidden = false;
   turnstileShell.hidden = false;
   frame.hidden = false;
-  frame.src = appUrl;
 
   let widgetId = null;
   let currentToken = '';
-  let frameLoaded = false;
+  let frameReady = false;
+
+  // Az Apps Script HTML Service a webalkalmazáson belül saját sandbox iframe-et is létrehozhat.
+  // A helper megkeresi az Apps Script iframe-en belüli leszármazott kereteket is.
+  function getEmbeddedWindows() {
+    const found = [];
+    const queue = [{ win: frame.contentWindow, depth: 0 }];
+    const seen = new Set();
+    while (queue.length) {
+      const current = queue.shift();
+      if (!current.win || seen.has(current.win) || current.depth > 5) continue;
+      seen.add(current.win);
+      let count = 0;
+      try { count = Math.min(20, current.win.frames.length); } catch (_) { count = 0; }
+      for (let i = 0; i < count; i++) {
+        try {
+          const child = current.win.frames[i];
+          if (child && !seen.has(child)) {
+            found.push(child);
+            queue.push({ win: child, depth: current.depth + 1 });
+          }
+        } catch (_) { /* egy másik, nem hozzáférhető keret kihagyható */ }
+      }
+    }
+    return [frame.contentWindow, ...found];
+  }
+
+  function postToEmbeddedForm(message) {
+    getEmbeddedWindows().forEach(target => {
+      try { target.postMessage(message, '*'); } catch (_) { /* a többi belső keretnek még küldhetünk */ }
+    });
+  }
+
+  function isEmbeddedFormSource(source) {
+    return getEmbeddedWindows().some(target => target === source);
+  }
 
   function sendTokenToFrame() {
-    if (frameLoaded && currentToken) {
-      frame.contentWindow.postMessage({ type: 'hk-turnstile-token', token: currentToken }, '*');
+    if (frameReady && currentToken) {
+      postToEmbeddedForm({ type: 'hk-turnstile-token', token: currentToken });
     }
   }
 
@@ -65,20 +99,30 @@ if (year) year.textContent = new Date().getFullYear();
     if (window.turnstile && widgetId !== null) {
       try { window.turnstile.reset(widgetId); } catch (_) { /* a következő frissítés újra renderelhető */ }
     }
-    frame.contentWindow?.postMessage({ type: 'hk-turnstile-expired' }, '*');
+    postToEmbeddedForm({ type: 'hk-turnstile-expired' });
   }
 
   window.addEventListener('message', event => {
-    // Az iframe forrását pontosan ellenőrizzük; más ablakból nem fogadunk üzenetet.
-    if (event.source !== frame.contentWindow || !event.data || typeof event.data !== 'object') return;
+    // Az Apps Script belső sandbox iframe-jéből is érkezhet üzenet, nem feltétlenül a külső keretből.
+    if (!event.data || typeof event.data !== 'object' || !isEmbeddedFormSource(event.source)) return;
+    let originIsGoogle = false;
+    try {
+      const originUrl = new URL(event.origin);
+      originIsGoogle = originUrl.protocol === 'https:' &&
+        (originUrl.hostname === 'script.google.com' || originUrl.hostname.endsWith('googleusercontent.com'));
+    } catch (_) { originIsGoogle = false; }
+    if (!originIsGoogle) return;
     const data = event.data;
-    if (data.type === 'hk-form-resize') {
+    if (data.type === 'hk-form-ready') {
+      frameReady = true;
+      sendTokenToFrame();
+    } else if (data.type === 'hk-form-resize') {
       const height = Number(data.height);
       if (Number.isFinite(height)) frame.style.height = Math.min(2600, Math.max(700, height + 12)) + 'px';
     } else if (data.type === 'hk-request-turnstile') {
       if (currentToken) sendTokenToFrame();
       else {
-        turnstileNotice.textContent = 'Kérjük, jelölje be a Cloudflare biztonsági ellenőrzését, majd küldje el újra az űrlapot.';
+        turnstileNotice.textContent = 'Kérjük, végezze el a Cloudflare biztonsági ellenőrzését az űrlap elküldése előtt.';
         turnstileShell.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     } else if (data.type === 'hk-form-sent' || data.type === 'hk-form-finished') {
@@ -88,8 +132,13 @@ if (year) year.textContent = new Date().getFullYear();
   });
 
   frame.addEventListener('load', () => {
-    frameLoaded = true;
-    sendTokenToFrame();
+    frameReady = false;
+    // Többször kérünk kézfogást, így a későn létrejövő belső sandbox iframe sem marad ki.
+    const pingForm = () => postToEmbeddedForm({ type: 'hk-parent-ping' });
+    pingForm();
+    setTimeout(pingForm, 350);
+    setTimeout(pingForm, 1000);
+    setTimeout(pingForm, 1800);
   });
 
   function renderTurnstile() {
@@ -135,5 +184,6 @@ if (year) year.textContent = new Date().getFullYear();
     document.head.appendChild(script);
   }
 
+  frame.src = appUrl;
   loadTurnstile();
 })();
