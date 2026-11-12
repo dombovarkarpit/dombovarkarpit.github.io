@@ -118,7 +118,7 @@ if (year) year.textContent = new Date().getFullYear();
       sendTokenToFrame();
     } else if (data.type === 'hk-form-resize') {
       const height = Number(data.height);
-      if (Number.isFinite(height)) frame.style.height = Math.min(2600, Math.max(700, height + 12)) + 'px';
+      if (Number.isFinite(height)) frame.style.height = Math.min(2600, Math.max(360, height + 8)) + 'px';
     } else if (data.type === 'hk-request-turnstile') {
       if (currentToken) sendTokenToFrame();
       else {
